@@ -13,11 +13,27 @@
 
 /* Header styles */
 .header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 20px;
+    padding: 10px 20px;
 }
+
+.header-left-side {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.header-middle-side {
+    display: flex;
+    justify-content: center;
+}
+
+.header-right-side {
+    display: flex;
+    justify-content: flex-end;
+}
+
 
 .header-left-side img {
     width: 15%;
@@ -38,6 +54,8 @@
     background-color: var(--primary-color-hover);
     cursor: pointer;
 }
+
+
 
 /* Footer styles */
 .footer {
