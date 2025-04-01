@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const auth = getAuth();
 
-    // Set initial state for form fields
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,9 +22,17 @@ const SignUp = () => {
             return;
         }
 
-        setIsLoading(true);
+        if (password.length < 6) {
+            setError("Password must be at least 6 characters long.");
+            return;
+        }
 
+        setIsLoading(true);
+        
         try {
+            // Create a new user with Firebase Authentication
+            await createUserWithEmailAndPassword(auth, email, password);
+
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/users/signup`, {
                 method: "POST",
                 headers: {
@@ -40,8 +49,12 @@ const SignUp = () => {
                 navigate("/login"); 
             }
         } catch (error) {
-            console.error(error);
-            setError("Something went wrong");
+            if (error.code === "auth/email-already-in-use") {
+                setError("Email already in use. Please login.");
+            } else{
+                console.error(error);
+                setError("Something went wrong");
+            }
             setIsLoading(false);
         }
     };

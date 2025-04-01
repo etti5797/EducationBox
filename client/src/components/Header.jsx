@@ -4,12 +4,16 @@ import '../styles/Style.css';
 import PropTypes from "prop-types";
 import { IoPersonCircleOutline } from "react-icons/io5"
 import Navbar from './Navbar';
+import {getAuth } from 'firebase/auth';
 
 const Header = ({isLoggedIn, setIsLoggedIn, navBarOption, setNavBarOption}) => {
 
+    const auth = getAuth();
+
     const handleLogout = () => {
         setIsLoggedIn(false);
-        localStorage.removeItem("user");
+        auth.signOut();
+        
     }
 
     return (

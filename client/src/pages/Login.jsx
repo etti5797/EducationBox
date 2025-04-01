@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
+
 
 const Login = ({setIsLoggedIn}) => {
 
     const navigate = useNavigate();
+    const auth = getAuth(); 
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -22,27 +25,34 @@ const Login = ({setIsLoggedIn}) => {
                 },
                 body: JSON.stringify({ email, password }),
             }); 
-            setIsLoading(false);
             if (!response.ok) {
                 setError("Something went wrong");
+                setIsLoading(false);
             }
             if(response.status === 404) {
                 setError("You don't have an account, please sign up"); 
+                setIsLoading(false);
             }
             if(response.status === 401) {
-                setError("Invalid password, please try again"); 
+                setError("Invalid password, please try again");
+                setIsLoading(false); 
             }
             if(response.status === 200) {
                 setError(null); 
-                const data = await response.json();
-                localStorage.setItem("user", JSON.stringify(data.user)); // store user data in local storage
+                await signInWithEmailAndPassword(auth, email, password);  //sign in the user in the firebase auth system 
                 setIsLoggedIn(true);
+                setIsLoading(false);
                 navigate('/profile'); 
             }  
         }
         catch (error) {
             console.error(error);
-            setError("Something went wrong"); 
+            if(error.code === "auth/user-not-found") {
+                setError("You don't have an account, please sign up"); 
+            }
+           else{
+                setError("Something went wrong");
+           }
             setIsLoading(false);
         }
     }

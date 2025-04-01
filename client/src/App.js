@@ -10,18 +10,27 @@ import Profile from './pages/Profile';
 import ChatBotIcon from './components/ChatBotIcon';
 import ChatBot from './pages/ChatBot';
 import SignUp from './pages/SignUp';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 
 function App() {
   const [navBarOption, setNavBarOption] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const auth = getAuth();
+
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);  
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [auth]); 
+
 
   return (
     <BrowserRouter>
@@ -34,7 +43,7 @@ function App() {
           <Route path="/Shared-Materials" element={<SharedMaterials />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
           <Route path="/SignUp" element={<SignUp />}/>
-          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/profile" element={<Profile />}/>
           <Route path="/chatBot" element={<ChatBot/>}/>
         </Routes>
         <ChatBotIcon setNavBarOption={setNavBarOption}/>
