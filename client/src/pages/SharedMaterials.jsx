@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 const SharedMaterials = () => {
     const [sharedMaterials, setSharedMaterials] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchSharedMaterials = async () => {
@@ -12,7 +13,7 @@ const SharedMaterials = () => {
                 const usersRef = collection(db, 'users');
                 const usersSnapshot = await getDocs(usersRef);
                 
-                const allSharedMaterials = [];
+                let allSharedMaterials = [];
 
                 for (const userDoc of usersSnapshot.docs) {
                     const userId = userDoc.id; // Firestore document ID = user's email = userId
@@ -41,19 +42,33 @@ const SharedMaterials = () => {
         fetchSharedMaterials();
     }, []);
 
+    
+    const filteredMaterials = sharedMaterials.filter(file =>
+        file.fileOriginalName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        file.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        file.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+        || file.uploadedBy?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div>
             <h1>Shared Materials</h1>
+            <input 
+                type="text"
+                placeholder="Search by name, description, tags, or uploader"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} 
+            />
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <div className="shared-materials-list">
-                    {sharedMaterials.length > 0 ? (
-                        sharedMaterials.map((material) => (
+                    {filteredMaterials.length > 0 ? (
+                        filteredMaterials.map((material) => (
                             <div key={material.id} className="shared-material-item">
                                 <h2>{material.fileOriginalName}</h2>
-                                <p><strong>Description:</strong> {material.description}</p>
-                                <p><strong>Tags:</strong> {material.tags?.join(', ')}</p>
+                                <p><strong>Description:</strong> {material.description || "No description"}</p>
+                                <p><strong>Tags:</strong> {material.tags?.join(', ') || "No tags"}</p>
                                 <p><strong>Uploaded by:</strong> {material.uploadedBy}</p>
                                 <a href={material.downloadURL} target="_blank" rel="noopener noreferrer">View</a>
                             </div>
