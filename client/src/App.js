@@ -12,6 +12,7 @@ import ChatBot from './pages/ChatBot';
 import SignUp from './pages/SignUp';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import UploadFiles from './pages/UploadFiles';
+import NotFound from './pages/NotFound';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
           <Route path="/profile" element={<Profile />}/>
           <Route path="/chatBot" element={<ChatBot/>}/>
           <Route path="/upload" element={<UploadFiles/>}/>
+          <Route path="*" element={<NotFound/>} />
         </Routes>
         <ChatBotIcon setNavBarOption={setNavBarOption}/>
         <Footer />
