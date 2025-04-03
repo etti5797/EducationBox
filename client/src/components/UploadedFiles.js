@@ -65,7 +65,7 @@ const UploadedFiles = ({ userEmail }) => {
           <div key={file.id} className="file-card">
             <div>{getFileIcon(file.fileType)}</div>
             <div>
-              <h4>{file.fileName}</h4>
+              <h4>{file.fileOriginalName}</h4>
               <p>{file.description}</p>
               <a href={file.downloadURL} target="_blank" rel="noopener noreferrer">View</a>
               <p>Tags: {file.tags.join(', ')}</p>

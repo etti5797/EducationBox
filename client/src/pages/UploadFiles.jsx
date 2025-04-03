@@ -59,12 +59,14 @@ const UploadFiles = () => {
 
       await addDoc(filesRef, {
         fileName: uniqueFileName,
+        fileOriginalName: file.name,
         fileType: file.type,
         fileSize: file.size,
         downloadURL: url, 
         description: description,
         isShared: isShared,
         tags: tagArray, 
+        uploadedBy: user.displayName,
         uploadTime: new Date(),
       });
 
