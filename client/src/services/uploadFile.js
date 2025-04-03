@@ -1,9 +1,9 @@
 import { storage } from "./firestore"; 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export const uploadFile = async (file, userEmail) => {
+export const uploadFile = async (file, userEmail, uniqueFileName) => {
   // Create a reference to the Firebase Storage location
-  const fileRef = ref(storage, `user_files/${userEmail}/${file.name}`);
+  const fileRef = ref(storage, `user_files/${userEmail}/${uniqueFileName}`);
   try {
     // Upload the file to Firebase Storage. Specifies that we’re storing files inside a folder named user_files
     // return a snapshot that holds details about the uploaded file

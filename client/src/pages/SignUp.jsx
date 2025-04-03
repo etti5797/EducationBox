@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -31,7 +31,9 @@ const SignUp = () => {
         
         try {
             // Create a new user with Firebase Authentication
-            await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const firebaseUser = userCredential.user;
+            await updateProfile(firebaseUser, { displayName: name });
 
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/users/signup`, {
                 method: "POST",
