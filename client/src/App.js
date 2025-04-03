@@ -48,7 +48,7 @@ function App() {
           <Route path="/profile" element={<Profile />}/>
           <Route path="/chatBot" element={<ChatBot/>}/>
           <Route path="/upload" element={<UploadFiles/>}/>
-          <Route path="*" element={<NotFound/>} />
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
         <ChatBotIcon setNavBarOption={setNavBarOption}/>
         <Footer />

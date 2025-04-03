@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoute.js';
+import forumRoutes from './routes/forumRoute.js';
 
 
 dotenv.config();
@@ -23,3 +24,4 @@ mongoose.connect(MONGODB_URI)
 
 
 app.use("/users", userRoutes); 
+app.use("/forum", forumRoutes);
