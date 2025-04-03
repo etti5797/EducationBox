@@ -74,7 +74,13 @@ const SharedMaterials = () => {
                             </div>
                         ))
                     ) : (
-                        <p>No shared materials available</p>
+                        <>
+                        {sharedMaterials.length > 0 ? (
+                            <p>No materials found matching your search criteria</p>
+                        ) : (
+                            <p>No shared materials available at the moment</p>
+                        )}
+                        </>
                     )}
                 </div>
             )}

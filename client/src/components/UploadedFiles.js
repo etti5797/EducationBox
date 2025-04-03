@@ -8,6 +8,7 @@ const UploadedFiles = ({ userEmail}) => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     if (userEmail) {
       const fetchFiles = async () => {
@@ -16,14 +17,6 @@ const UploadedFiles = ({ userEmail}) => {
           const fileSnapshot = await getDocs(filesRef);
           const fileList = fileSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
           setFiles(fileList);
-          if (searchTerm !== '') {
-            const filteredFiles = fileList.filter(file => 
-              file.fileOriginalName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              file.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              file.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-            );
-            setFiles(filteredFiles);
-          }
         } catch (error) {
           console.error("Error fetching files:", error);
         } finally {
@@ -32,7 +25,13 @@ const UploadedFiles = ({ userEmail}) => {
       };
       fetchFiles();
     }
-  }, [userEmail, searchTerm]);
+  }, [userEmail]);
+
+  const filteredFiles = files.filter(file => 
+    file.fileOriginalName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    file.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    file.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   const handleShareChange = async (fileId, currentState) => {
     const fileRef = doc(db, 'users', userEmail, 'files', fileId);
@@ -72,8 +71,8 @@ const UploadedFiles = ({ userEmail}) => {
         onChange={(e) => setSearchTerm(e.target.value)} />
       {loading ? (
         <p>Loading your files...</p>
-      ) : files.length > 0 ? (
-        files.map((file) => (
+      ) : filteredFiles.length > 0 ? (
+        filteredFiles.map((file) => (
           <div key={file.id} className="file-card">
             <div>{getFileIcon(file.fileType)}</div>
             <div>
@@ -92,7 +91,13 @@ const UploadedFiles = ({ userEmail}) => {
           </div>
         ))
       ) : (
-        <p>No files uploaded yet</p>
+        <>
+          {files.length > 0 ? (
+            <p>No files match your search criteria</p>
+          ) : (
+            <p>No files uploaded yet</p>
+          )}
+        </>
       )}
     </div>
   );

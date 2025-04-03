@@ -100,7 +100,7 @@ const UploadFiles = () => {
       {msg && <p>{msg}</p>}
       {downloadURL && (
         <p>
-          Download URL: <a href={downloadURL} target="_blank" rel="noopener noreferrer">Download</a>
+          URL: <a href={downloadURL} target="_blank" rel="noopener noreferrer">View</a>
         </p>
       )}
       <div>
