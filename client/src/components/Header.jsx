@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../images/logo.PNG';
+import logo from '../images/logo2.PNG';
 import '../styles/Style.css';
 import PropTypes from "prop-types";
 import { IoPersonCircleOutline } from "react-icons/io5"
