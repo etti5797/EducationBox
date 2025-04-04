@@ -15,6 +15,7 @@ import UploadFiles from './pages/UploadFiles';
 import NotFound from './pages/NotFound';
 import Question from './pages/Question';
 import AddQuestion from './pages/AddQuestion';
+import AnswerQuestion from './pages/AnswerQuestion';
 
 
 function App() {
@@ -44,14 +45,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Forum" element={<Forum />} />
+          <Route path="/question/:id" element={<Question/>} />
+          <Route path="/question/:id/answer" element={<AnswerQuestion/>}/>
+          <Route path="/add-question" element={<AddQuestion/>}/>
           <Route path="/Shared-Materials" element={<SharedMaterials />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
           <Route path="/SignUp" element={<SignUp />}/>
           <Route path="/profile" element={<Profile />}/>
           <Route path="/chatBot" element={<ChatBot/>}/>
           <Route path="/upload" element={<UploadFiles/>}/>
-          <Route path="/add-question" element={<AddQuestion/>}/>
-          <Route path="/question/:id" element={<Question/>} />
           <Route path="*" element={<NotFound/>}/>
         </Routes>
         <ChatBotIcon setNavBarOption={setNavBarOption}/>

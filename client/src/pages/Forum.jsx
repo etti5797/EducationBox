@@ -52,6 +52,7 @@ const ForumPage = () => {
 
   return (
     <div className="forum-page">
+      <p>Notice: Please be aware that only logged-in users are able to add questions and comment on questions</p>
         {/* only logged in users can add questions*/}
       {isLoggedIn && (
         <Link to={"/add-question"}>
