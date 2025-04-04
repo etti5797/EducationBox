@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
-import { set } from "mongoose";
 
 const AnswerQuestion = () => {
     const {id} = useParams(); // question id

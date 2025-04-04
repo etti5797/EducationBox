@@ -10,6 +10,7 @@
     --clear-button-bg: #ff5722;
     --clear-button-hover-bg: #e64a19;
     --error: #ff0000;
+    --homepage-text-color: #333;
 }
 
 /* Header styles */
@@ -17,7 +18,7 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 10px 20px;
+    padding: 5px 20px;
 }
 
 .header-left-side {
@@ -240,3 +241,69 @@
 .not-found p{
     font-weight: 500;
 }
+
+/* home page styles */
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    padding-top: 0px;
+    margin: 30px 50px;
+    font-family: 'Arial', sans-serif;
+    color: var(--homepage-text-color);
+    background-color: var(--chatbox-bg);
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.intro-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 800px;
+}
+
+.platform-features-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+}
+
+.about-project {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-top: 20px;
+    text-align: center;
+    max-width: 800px;
+}
+
+.linkedin {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.linkedin-icon {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
