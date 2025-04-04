@@ -8,7 +8,6 @@ const Profile = () => {
 
   return (
     <div className="profile">
-      <h1>Profile</h1>
       {isUserLoggedIn ? (
         <div className="profile-content">
           <h2>Hello, {getAuth().currentUser.displayName || "User"}</h2>

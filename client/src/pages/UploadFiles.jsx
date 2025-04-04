@@ -55,7 +55,7 @@ const UploadFiles = () => {
 
       const filesRef = collection(userRef, "files");
       
-      const tagArray = tags.split(',').map(tag => tag.trim().toLowerCase());
+      const tagArray = tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag !== '');
 
       await addDoc(filesRef, {
         fileName: uniqueFileName,

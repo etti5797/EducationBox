@@ -51,8 +51,7 @@ const SharedMaterials = () => {
     );
 
     return (
-        <div>
-            <h1>Shared Materials</h1>
+        <div className="shared-materials">
             <input 
                 type="text"
                 placeholder="Search by name, description, tags, or uploader"
