@@ -69,7 +69,7 @@ const UploadedFiles = ({ userEmail}) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)} />
       {loading ? (
-        <p className='loadong'>Loading your files...</p>
+        <p className='loading'>Loading your files...</p>
       ) : filteredFiles.length > 0 ? (
         <div className="file-card-container">
         {

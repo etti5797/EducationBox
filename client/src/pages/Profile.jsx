@@ -17,7 +17,7 @@ const Profile = () => {
           {userEmail && <UploadedFiles userEmail={userEmail} />}
         </div>
       ) : (
-        <div className="profile-content-blocked">
+        <div className="error">
           <h2>Please log in to access your profile</h2>
         </div>
       )}

@@ -11,7 +11,7 @@ const ForumPage = () => {
   const [filteredQuestions, setFilteredQuestions] = useState([]); 
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState(null);
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -52,7 +52,7 @@ const ForumPage = () => {
 
   return (
     <div className="forum-page">
-      <p>Notice: Please be aware that only logged-in users are able to add questions and comment on questions</p>
+      {!isLoggedIn && <p>Notice: Only logged-in users can add questions or comment on them <br/> If you're not logged in, the buttons to perform these actions will not be visible</p>}
         {/* only logged in users can add questions*/}
       {isLoggedIn && (
         <Link to={"/add-question"}>
@@ -71,35 +71,34 @@ const ForumPage = () => {
       </div>
 
       {loading ? (
-        <p>Loading questions...</p>
+        <p className="loading">Loading questions...</p>
       ) : (
         <div className="question-list">
           {filteredQuestions.length === 0 ? (
             <p>No questions found</p>
           ) : (
             filteredQuestions.map((question) => (
-              <div
-                className="question-card"
-                key={question.id}
-              >
-                <Link to={`/question/${question._id}`} style={{textDecoration : 'none'}}>
-                    <h2>{question.title}</h2>
-                </Link> 
-                <p>
-                  <strong>Asked by:</strong> {question.askedBy}{" "}
-                  <strong>on:</strong> {new Date(question.createdAt).toLocaleString()}
-                </p>
-                <div className="tags">
-                  {/* Render tags as a comma-separated list */}
-                  {question.tags.length > 0 ? question.tags.join(", ") : "No tags"}
+              <Link className="question-card" to={`/question/${question._id}`} style={{textDecoration : 'none'}}>
+                <div
+                  key={question.id}
+                > 
+                  <h2>{question.title}</h2>
+                  <p>
+                    <strong>Asked by:</strong> {question.askedBy}{" "}
+                    <strong>on:</strong> {new Date(question.createdAt).toLocaleString()}
+                  </p>
+                  <div className="tags">
+                    {/* Render tags as a comma-separated list */}
+                    {question.tags.length > 0 ? question.tags.join(", ") : "No tags"}
+                  </div> 
                 </div>
-              </div>
+              </Link>
             ))
           )}
         </div>
       )}
 
-      {msg && <p className="error-msg">{msg}</p>}
+      {msg && <p className="error">{msg}</p>}
     </div>
   );
 };

@@ -12,14 +12,16 @@ const AddQuestion = () => {
   const [question, setQuestion] = useState("");
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState(null); 
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMsg(null);
+    setErrorMsg(null);
+    setSuccessMsg(null);
 
     if (question.length < 10) {
-      setMsg("Question must be at least 10 characters long");
+      setErrorMsg("Question must be at least 10 characters long");
       return;
     }
 
@@ -48,13 +50,15 @@ const AddQuestion = () => {
         throw new Error("Failed to add question");
       }
 
-      setMsg("Your question has been submitted!");
+      setErrorMsg(null);
+
+      setSuccessMsg("Your question has been submitted!");
       setTitle("");
       setQuestion("");
       setTags([]);
     } catch (error) {
       console.error(error);
-      setMsg("Failed to add question. Please try again.");
+      setErrorMsg("Failed to add question. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -63,13 +67,15 @@ const AddQuestion = () => {
   return (
     <>
       {isLoggedIn ? (
-        <div className="add-question">
-          <Link to={"/Forum"} className="back-to-forum">
-            <button className="return-btn">back</button>
+        <div className="add-question-page">
+          <Link to={"/Forum"} className="back-button">
+            <button className='back-button'>back</button>
           </Link>
+          {errorMsg && <p className="error">{errorMsg}</p>}
+          {successMsg && <p className="success">{successMsg}</p>}
           <form onSubmit={handleSubmit}>
-            <h1>Add a Question</h1>
-
+            <h2>Add a Question</h2>
+            <div className="question-input">
             <input
               type="text"
               placeholder="Title"
@@ -77,14 +83,16 @@ const AddQuestion = () => {
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-
+            </div>
+            <div className="question-input">
             <textarea
               placeholder="Question"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               required
             />
-
+            </div>
+            <div className="question-input">
             <input
               type="text"
               placeholder="Tags (separated by commas)"
@@ -94,16 +102,16 @@ const AddQuestion = () => {
               }
               required
             />
+            </div>
 
             <button type="submit" disabled={loading}>
               Add Question
             </button>
-          </form>
             {loading && <p className="loading">Loading...</p>}
-            {msg && <p className="msg">{msg}</p>}
+          </form>
         </div>
       ) : (
-        <h1>Please login to add a question</h1>
+        <h1 className="error">Please login to add a question</h1>
       )}
     </>
   );

@@ -52,37 +52,39 @@ const SharedMaterials = () => {
 
     return (
         <div className="shared-materials">
-            <input 
-                type="text"
-                placeholder="Search by name, description, tags, or uploader"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)} 
-            />
-            {loading ? (
-                <p className="loading">Loading...</p>
-            ) : (
-                <div className="shared-materials-list">
-                    {filteredMaterials.length > 0 ? (
-                        filteredMaterials.map((material) => (
-                            <div key={material.id} className="shared-material-item">
-                                <h2>{material.fileOriginalName}</h2>
-                                <p><strong>Description:</strong> {material.description || "No description"}</p>
-                                <p><strong>Tags:</strong> {material.tags?.join(', ') || "No tags"}</p>
-                                <p><strong>Uploaded by:</strong> {material.uploadedBy}</p>
-                                <a href={material.downloadURL} target="_blank" rel="noopener noreferrer">View</a>
-                            </div>
-                        ))
-                    ) : (
-                        <>
-                        {sharedMaterials.length > 0 ? (
-                            <p>No materials found matching your search criteria</p>
+            <div className="shared-materials-content">
+                <input 
+                    type="text"
+                    placeholder="Search by name, description, tags, or uploader"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)} 
+                />
+                {loading ? (
+                    <p className="loading">Loading...</p>
+                ) : (
+                    <div className="shared-materials-list">
+                        {filteredMaterials.length > 0 ? (
+                            filteredMaterials.map((material) => (
+                                <div key={material.id} className="file-card">
+                                    <h2>{material.fileOriginalName}</h2>
+                                    <p><strong>Description:</strong> {material.description || "No description"}</p>
+                                    <p><strong>Tags:</strong> {material.tags?.join(', ') || "No tags"}</p>
+                                    <p><strong>Uploaded by:</strong> {material.uploadedBy}</p>
+                                    <a href={material.downloadURL} target="_blank" rel="noopener noreferrer">View</a>
+                                </div>
+                            ))
                         ) : (
-                            <p>No shared materials available at the moment</p>
+                            <>
+                            {sharedMaterials.length > 0 ? (
+                                <p className="error">No materials found matching your search criteria</p>
+                            ) : (
+                                <p>No shared materials available at the moment</p>
+                            )}
+                            </>
                         )}
-                        </>
-                    )}
-                </div>
-            )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

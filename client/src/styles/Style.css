@@ -2,6 +2,7 @@
 :root {
     --primary-color: rgba(101, 172, 255, 1); 
     --primary-color-hover: rgba(141, 195, 255, 1); 
+    --button-bg-hover: white;
     --button-text-color: white;
     --button-text-color-hover: black;
     --footer-text-color: #5c6d64; 
@@ -10,14 +11,30 @@
     --error: #ff4c4c; 
     --homepage-text-color: #333;
     --clear-chat-button-bg: #05509c;
+    --share-unshare-button-bg: #05509c;
+    --delete-file-button-bg: red;
+    --file-card-text-color: #555;
+    --forum-notice-message: #555;
+    --question-card-bg: white;
+    --question-card-text-color: #777;
 }
 
 /* Universal styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
 h1 {
     font-size: 2.5rem;
     color: var(--primary-color);
     text-align: center;
     margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 button {
@@ -32,7 +49,7 @@ button {
 }
 
 button:hover {
-    background-color: white;
+    background-color: var(--button-bg-hover);
     border: 2px solid var(--primary-color);
     color: var(--button-text-color-hover);
 }
@@ -46,6 +63,14 @@ button:focus {
     justify-content: center;
     margin-bottom: 10px;
     color: var(--error);
+    font-weight: 700;
+}
+
+.success {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    color: var(--primary-color);
     font-weight: 700;
 }
 
@@ -68,6 +93,10 @@ input:focus {
     outline: none;
     border-color: var(--primary-color-hover);
     transition: all 0.3s ease;
+}
+
+.back-button {
+    margin-left: 215px;
 }
 
 
@@ -150,7 +179,6 @@ input:focus {
     padding: 20px;
     padding-top: 0px;
     margin: 30px 50px;
-    font-family: 'Arial', sans-serif;
     color: var(--homepage-text-color);
     background-color: var(--box-background-color);
     border-radius: 10px;
@@ -296,7 +324,6 @@ ul {
     background-color: white;
     color: var(--button-text-color-hover);
     border: 2px solid var(--clear-chat-button-bg);
-    transition: background-color 0.3s ease;
 }
 
 
@@ -312,7 +339,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border: 2px solid transparent;
     transition: all 0.3s ease;
 }
@@ -321,24 +348,18 @@ ul {
     cursor: pointer;
     border: 2px solid var(--primary-color);
     background-color: white;
-    transition: background-color 0.3s ease-in-out;
+    transition: all 0.3s ease;
 }
 
 .chatbot-icon svg {
-    transition: color 0.3s ease; /* Add transition for color change */
-} */
+    transition: color 0.3s ease; 
+} 
 
 
 /* Loading styles */
 .loading {
     text-align: center;
     margin-top: 20px;
-}
-
-.loading-msg {
-    font-size: 16px;
-    color: var(--primary-color);
-    font-weight: bold;
 }
 
 /* 404 page styles */
@@ -372,43 +393,22 @@ ul {
     font-weight: 500;
 }
 
-/* Profile page styles */
-.profile {
+/* Profile page && shared materials page styles */
+.profile, .shared-materials {
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
   
-.profile-content {
+.profile-content, .shared-materials-content {
     background: var(--box-background-color);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 800px;
     text-align: center;
-}
-  
-.profile-content h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.profile-content-blocked {
-    background-color: var(--box-background-color);
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-.profile-content-blocked h2 {
-    font-size: 22px;
-    color: var(--error);
 }
 
 .uploaded-files {
@@ -419,7 +419,7 @@ ul {
     padding: 10px;
   }
   
-.uploaded-files input {
+.uploaded-files input, .shared-materials input {
     padding: 15px;
     width: 100%;
     max-width: 600px;
@@ -430,13 +430,13 @@ ul {
     transition: all 0.3s;
 }
   
-.uploaded-files input:focus {
+.uploaded-files input:focus, .shared-materials input:focus{
     border-color: var(--primary-color-hover);
     outline: none;
 }
   
   
-.file-card-container {
+.file-card-container, .shared-materials-list {
     display: flex;
     flex-wrap: wrap; /*make sure the cards wrap to the next line if they don't fit*/
     gap: 30px;
@@ -449,7 +449,7 @@ ul {
     width: 300px;
     height: 350px;
     border-radius: 8px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -469,18 +469,303 @@ ul {
   
 .file-card p {
     font-size: 14px;
-    color: #555;
+    color: var(--file-card-text-color);
     margin-bottom: 15px;
 }
-/* 
+
 .share-unshare-button { 
-    background-color: purple;
+    background-color: var(--share-unshare-button-bg);
+}
+
+.share-unshare-button:hover { 
+    border: 2px solid var(--share-unshare-button-bg);
 }
 
 .delete-file-button {
-    background-color: red;
+    background-color: var(--delete-file-button-bg);
 }
-   */
+
+.delete-file-button:hover {
+    border: 2px solid var(--delete-file-button-bg);
+}
+  
+/* Upload file page styles */
+.upload-file {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 30px 215px;
+    color: var(--homepage-text-color);
+    background-color: var(--box-background-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.file-info {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.file-info label {
+    width: 160px; 
+    text-align: left;
+}
+  
+.file-info input[type="text"],
+.file-info input[type="file"] {
+    flex: 1;
+    padding: 6px 10px;
+}
+
+.file-info input[type="checkbox"] {
+    margin-left: 0px;
+    transform: scale(1.5);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Forum page styles */
+.forum-page {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--box-background-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.forum-page p {
+    font-size: 16px;
+    color: var(--forum-notice-message);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add-question-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 15px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 25px;
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.search-bar input:focus {
+    border-color: var(--primary-color-hover);
+    outline: none;
+}
+
+.question-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.question-card {
+    background-color: var(--question-card-bg);
+    padding: 15px;
+    margin: 10px;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.question-card:hover {
+    transform: translateY(-5px);
+}
+
+.question-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.question-card p {
+    font-size: 16px;
+    color: var(--question-card-text-color);
+    margin-bottom: 15px;
+}
+
+.question-card .tags {
+    font-size: 14px;
+    color: var(--question-card-text-color);
+    margin-top: 10px;
+}
+
+/* add question page styles */
+.add-question-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 30px 215px;
+    color: var(--homepage-text-color);
+    background-color: var(--box-background-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-question-page .back-button {
+    margin-left: 109px;
+}
+
+.question-input {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    
+}
+
+.question-input textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+}
+
+.question-input textarea:focus {
+    outline: none;
+    border-color: var(--primary-color-hover);
+    transition: all 0.3s ease;
+}
+
+/* Question page styles */
+.question-page {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--box-background-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 30px 215px;
+}
+
+.question-details {
+    width: 100%;
+    max-width: 700px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.question-details p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.answer-details {
+    background-color: var(--question-card-bg);
+    padding: 15px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.answer-details:hover {
+    transform: translateY(-5px);
+}
+
+.answer-details p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.answer-details strong {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* answer question page style */
+.answer-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 30px 215px;
+    color: var(--homepage-text-color);
+    background-color: var(--box-background-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.answer-input textarea {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 700px;
+    height: 180px;
+    padding: 10px;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+}
+
+.answer-input textarea:focus {
+    outline: none;
+    border-color: var(--primary-color-hover);
+    transition: all 0.3s ease;
+}
+
+
+
+
+
 
 
   

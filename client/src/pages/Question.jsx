@@ -54,29 +54,33 @@ const Question = () => {
     }
 
     if (!question) {
-        return <div>No question found with this ID</div>;
+        return <div className="error">No question found with this ID</div>;
     }
 
     return (
-        <div className="question-page">
-            <Link to="/forum" style={{textDecoration : 'none'}}><button>Back</button></Link>
-            <h1>{question.title}</h1>
-            <p><strong>Question:</strong> {question.question}</p>
-            <p><strong>Asked by:</strong> {question.askedBy}<strong> On:</strong> {new Date(question.createdAt).toLocaleString()}</p>
-            {isLoggedIn && <Link to={`/question/${id}/answer`} style={{textDecoration : 'none'}}><button>Answer</button></Link>}
-            {answers.length === 0 ? (
-                <p>No answers yet</p>
-            ) : (
-                <div>
-                    {answers.map((answer, index) => (
-                        <div key={index} className="answer">
-                            <p>{answer.answer}</p>
-                            <p><strong>Answer by:</strong> {answer.answeredBy}<strong> On:</strong> {new Date(answer.createdAt).toLocaleString()}</p>
-                        </div>
-                    ))}
+        <>
+            <Link to="/forum" style={{textDecoration : 'none'}}><button className='back-button'>Back</button></Link>
+            <div className="question-page">
+                <h2>{question.title}</h2>
+                <div className="question-details">
+                    <p><strong>Question:</strong> {question.question}</p>
+                    <p><strong>Asked by:</strong> {question.askedBy}<strong> On:</strong> {new Date(question.createdAt).toLocaleString()}</p>
                 </div>
-            )}
-        </div>
+                {isLoggedIn && <Link to={`/question/${id}/answer`} style={{textDecoration : 'none'}}><button>Answer</button></Link>}
+                {answers.length === 0 ? (
+                    <p>No answers yet</p>
+                ) : (
+                    <div className="answers">
+                        {answers.map((answer, index) => (
+                            <div key={index} className="answer-details">
+                                <p>{answer.answer}</p>
+                                <p><strong>Answer by:</strong> {answer.answeredBy}<strong> On:</strong> {new Date(answer.createdAt).toLocaleString()}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 

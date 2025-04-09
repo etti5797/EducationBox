@@ -7,23 +7,26 @@ const AnswerQuestion = () => {
     const auth = getAuth();
     const [answer, setAnswer] = useState("");
     const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
+
 
     if (!auth.currentUser) {
         return (
             <div className="answer-question-page">
-                <Link to={`/question/${id}`} style={{textDecoration : 'none'}}><button>back</button></Link>
-                <p>Please log in to add an answer</p>
+                <Link to={`/question/${id}`} style={{textDecoration : 'none'}}><button className='back-button'>back</button></Link>
+                <p className="error">Please log in to add an answer</p>
             </div>
         );
     }
 
     const handleSubmit = async () => {
         setLoading(true);
-        setMsg("");
+        setErrorMsg("");
+        setSuccessMsg("");
         try {
             if(!answer || answer.length < 10) {
-                setMsg("Answer must be at least 10 characters long");
+                setErrorMsg("Answer must be at least 10 characters long");
                 return;
             }
             const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/forum/question/${id}/addAnswer`, {
@@ -37,28 +40,33 @@ const AnswerQuestion = () => {
                 }),
             });
             if (!response.ok) {
-                setMsg("something went wrong, please try again later");
+                setErrorMsg("something went wrong, please try again later");
                 return;
             }
-            setMsg("Answer added successfully");
+            setErrorMsg("");
+            setSuccessMsg("Answer added successfully");
         } catch (error) {
-            setMsg("something went wrong, please try again later");
+            setErrorMsg("something went wrong, please try again later");
             console.error("Error adding answer:", error);
         } finally {
             setLoading(false);
+            setAnswer("");
         }
     }
     return (
         <div className="answer-question-page">
-            <Link to={`/question/${id}`} style={{textDecoration : 'none'}}><button>back</button></Link>
-            <input 
-                type="text"
-                placeholder="Write your answer here..." 
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)} />
-            <button onClick={handleSubmit} disabled={loading}>Submit</button>
-            {loading && <p className="loading">Loading...</p>}
-            {msg && <p>{msg}</p>}
+            <Link to={`/question/${id}`} style={{textDecoration : 'none'}}><button className='back-button'>back</button></Link>
+            <div className="answer-input">
+                {loading && <p className="loading">Loading...</p>}
+                {errorMsg && <p className="error">{errorMsg}</p>}
+                {successMsg && <p className="success">{successMsg}</p>}
+                <textarea 
+                    placeholder="Write your answer here..." 
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)} 
+                    required/>
+                <button onClick={handleSubmit} disabled={loading}>Submit</button>
+            </div>
         </div>
     );
 }
