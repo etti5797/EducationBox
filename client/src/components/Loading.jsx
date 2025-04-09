@@ -5,7 +5,7 @@ const Loading = ({ isLoading }) => {
     <div>
       {isLoading && (
         <div className="loading">
-            <span className="loading-msg">Loading...</span>
+            <span className="loading">Loading...</span>
         </div>
       )}
     </div>

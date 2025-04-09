@@ -48,7 +48,7 @@ const SignUp = () => {
                 setError("User already exists, please login");
             }
             if (response.status === 201) { // successful signup
-                navigate("/login"); 
+                navigate("/profile"); 
             }
         } catch (error) {
             if (error.code === "auth/email-already-in-use") {
@@ -65,7 +65,7 @@ const SignUp = () => {
         <>
         <h1>Sign Up</h1>
         {error && <div className="error">{error}</div>}
-        {isLoading ? (<div>Loading...</div> ) : 
+        {isLoading ? (<div className="loading">Loading...</div> ) : 
         (
         <div className="signup">
             <form onSubmit={handleSignUp}>

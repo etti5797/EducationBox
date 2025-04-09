@@ -142,7 +142,7 @@ const UploadFiles = () => {
           Upload
         </button>
       </div>
-      {uploading && <p>Uploading...</p>}
+      {uploading && <p className='loading'>Uploading...</p>}
     </>
   );
 };

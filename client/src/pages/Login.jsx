@@ -61,7 +61,7 @@ const Login = ({setIsLoggedIn}) => {
         <>
         <h1>Login</h1>
         {error && <div className="error">{error}</div>} 
-        {isLoading ? (<div>Loading...</div> ) : 
+        {isLoading ? (<div className="loading">Loading...</div> ) : 
         ( 
             <div className="login">
                 <form onSubmit={handleLogin}>
@@ -81,7 +81,7 @@ const Login = ({setIsLoggedIn}) => {
                         submit
                     </button> {/* the button is disabled when isLoading is true*/ }
                 </form>
-                <p>Don't have an account? 
+                <p>Don't have an account?{" "} 
                     <Link to="/signup" style={{ textDecoration: 'none' }}>
                     Sign Up
                     </Link>

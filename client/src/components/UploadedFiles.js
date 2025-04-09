@@ -63,37 +63,39 @@ const UploadedFiles = ({ userEmail}) => {
   };
 
   return (
-    <div>
-      <h3>Your Uploaded Files</h3>
+    <div className='uploaded-files'>
       <input type="text"
         placeholder="Search files by tags, description, or name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)} />
       {loading ? (
-        <p>Loading your files...</p>
+        <p className='loadong'>Loading your files...</p>
       ) : filteredFiles.length > 0 ? (
-        filteredFiles.map((file) => (
-          <div key={file.id} className="file-card">
-            <div>{getFileIcon(file.fileType)}</div>
-            <div>
-              <h4>{file.fileOriginalName}</h4>
-              <p>{file.description}</p>
-              <a href={file.downloadURL} target="_blank" rel="noopener noreferrer">View</a>
-              <p>Tags: {file.tags.join(', ')}</p>
-              <p>
-                Shared: {file.isShared ? '✅' : '❌'}
-                <button onClick={() => handleShareChange(file.id, file.isShared)}>
-                  {file.isShared ? 'Unshare' : 'Share'}
-                </button>
-              </p>
-              <button onClick={() => handleDelete(file.fileName, file.downloadURL)}>Delete</button>
+        <div className="file-card-container">
+        {
+          filteredFiles.map((file) => (
+            <div key={file.id} className="file-card">
+              <div>{getFileIcon(file.fileType)}</div>
+              <div>
+                <h4>{file.fileOriginalName}</h4>
+                <p>{file.description}</p>
+                <a href={file.downloadURL} target="_blank" rel="noopener noreferrer">View</a>
+                <p>Tags: {file.tags.join(', ')}</p>
+                <p>
+                  Shared: {file.isShared ? '✅' : '❌'}{" "}
+                  <button className='share-unshare-button' onClick={() => handleShareChange(file.id, file.isShared)}>
+                    {file.isShared ? 'Unshare' : 'Share'}
+                  </button>
+                </p>
+                <button className='delete-file-button' onClick={() => handleDelete(file.fileName, file.downloadURL)}>Delete</button>
+              </div>
             </div>
-          </div>
-        ))
-      ) : (
+          ))
+        }
+        </div>) : (
         <>
           {files.length > 0 ? (
-            <p>No files match your search criteria</p>
+            <p className='error'>No files match your search criteria</p>
           ) : (
             <p>No files uploaded yet</p>
           )}

@@ -57,7 +57,7 @@ const AnswerQuestion = () => {
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)} />
             <button onClick={handleSubmit} disabled={loading}>Submit</button>
-            {loading && <p>Loading...</p>}
+            {loading && <p className="loading">Loading...</p>}
             {msg && <p>{msg}</p>}
         </div>
     );

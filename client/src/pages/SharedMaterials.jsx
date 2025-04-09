@@ -59,7 +59,7 @@ const SharedMaterials = () => {
                 onChange={(e) => setSearchTerm(e.target.value)} 
             />
             {loading ? (
-                <p>Loading...</p>
+                <p className="loading">Loading...</p>
             ) : (
                 <div className="shared-materials-list">
                     {filteredMaterials.length > 0 ? (
