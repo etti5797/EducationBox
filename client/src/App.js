@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Forum from './pages/Forum';
@@ -10,7 +10,6 @@ import Profile from './pages/Profile';
 import ChatBotIcon from './components/ChatBotIcon';
 import ChatBot from './pages/ChatBot';
 import SignUp from './pages/SignUp';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import UploadFiles from './pages/UploadFiles';
 import NotFound from './pages/NotFound';
 import Question from './pages/Question';
@@ -21,28 +20,12 @@ import MyCalendar from './components/MyCalendar';
 
 function App() {
   const [navBarOption, setNavBarOption] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const auth = getAuth();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user);  
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
-    return () => unsubscribe();
-  }, [auth]); 
-
 
   return (
     <BrowserRouter>
     
       <div className="app">
-        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} navBarOption={navBarOption} setNavBarOption={setNavBarOption}/>
+        <Header navBarOption={navBarOption} setNavBarOption={setNavBarOption}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/forum" element={<Forum />} />
@@ -50,7 +33,7 @@ function App() {
           <Route path="/question/:id/answer" element={<AnswerQuestion/>}/>
           <Route path="/add-question" element={<AddQuestion/>}/>
           <Route path="/shared-materials" element={<SharedMaterials />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/signUp" element={<SignUp />}/>
           <Route path="/profile" element={<Profile />}/>
           <Route path="/chatBot" element={<ChatBot/>}/>

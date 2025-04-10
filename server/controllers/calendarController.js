@@ -1,10 +1,11 @@
-import CalendarEvent from "../models/calendarModel";
+import CalendarEvent from "../models/calendarModel.js";
 
 
 // need to change for a specific user
-export const getEvents = async (req, res) => {
+export const getUserEvents = async (req, res) => {
+    const { userEmail } = req.params; 
     try {
-        const events = await CalendarEvent.find();
+        const events = await CalendarEvent.find({ userEmail });
         return res.status(200).json(events);
     } catch (error) {
         console.error(error);
@@ -44,16 +45,13 @@ export const deleteEvent = async (req, res) => {
     }
 }
 
-// userEmail??
 export const editEvent = async (req, res) => {
     const { id } = req.params;
-    const { title, description, start, end } = req.body;
+    const { title, description } = req.body;
     try {
         const updatedEvent = await CalendarEvent.findByIdAndUpdate(id, {
             title,
             description,
-            start,
-            end
         }, { new: true });
         if (!updatedEvent) {
             return res.status(404).json({ message: "Event not found" });

@@ -2,67 +2,164 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
+
 
 const localizer = momentLocalizer(moment)
 
-// need to initialize the calendar events from the database - for a specific user
-
 const MyCalendar = () => {
   const [events, setEvents] = useState([]) 
-  const [showAddModal, setShowAddModal] = useState(false) // for add event (pop up window)
-  const [showManageModal, setShowManageModal] = useState(false) // for edit or delete event (pop up window)
-  const [selectedEvent, setSelectedEvent] = useState(null) 
-  const [selectedSlot, setSelectedSlot] = useState(null) 
-  const [newTitle, setNewTitle] = useState('') 
-  const [newDescription, setNewDescription] = useState('') 
-  const [editTitle, setEditTitle] = useState('') 
-  const [editDescription, setEditDescription] = useState('') 
+  const { isLoggedIn, user } = useAuth()
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [showManageModal, setShowManageModal] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [selectedSlot, setSelectedSlot] = useState(null)
+  const [newTitle, setNewTitle] = useState('')
+  const [newDescription, setNewDescription] = useState('')
+  const [editTitle, setEditTitle] = useState('')
+  const [editDescription, setEditDescription] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      if (!isLoggedIn) {
+        setEvents([]) 
+        return
+      }
+      try {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/calendar/getUserEvents/${user.email}`)
+        if (!response.ok) {
+          throw new Error('Failed to fetch events')
+        }
+        const data = await response.json()
+
+        const formattedEvents = data.map(event => ({
+          ...event,
+          start: new Date(event.start),
+          end: new Date(event.end)
+        }))
+        setEvents(formattedEvents)
+      } catch (error) {
+        console.error('Error fetching events:', error)
+      }
+    }
+
+    fetchEvents()
+  }, [isLoggedIn, user?.email, showAddModal]) // showAddModal was added to the dependency array since the new added event wansn't displayed immediately
+
 
   const handleSelectSlot = (slotInfo) => {
+    setErrorMsg('')
     setSelectedSlot(slotInfo)
     setNewTitle('')
     setNewDescription('')
-    setShowAddModal(true) // open the add modal
+    setShowAddModal(true) 
   }
 
   const handleSelectEvent = (event) => {
+    setErrorMsg('')
     setSelectedEvent(event)
     setEditTitle(event.title)
     setEditDescription(event.description || '')
-    setShowManageModal(true) // open the manage modal
+    setShowManageModal(true)
   }
 
-  const handleAddEvent = () => {
-    if (!newTitle.trim()) return 
+  const handleAddEvent = async () => {
+    if (!newTitle.trim() || !newDescription.trim())
+    {
+      setErrorMsg('Please fill in all fields')
+      return
+    }
+    setErrorMsg('')
     const newEvent = {
       title: newTitle,
       description: newDescription,
       start: selectedSlot.start,
       end: selectedSlot.end,
+      userEmail: user.email
     }
-    setEvents([...events, newEvent]) 
-    setShowAddModal(false) // Close the add modal
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/calendar/addEvent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEvent),
+      })
+      if (!response.ok) {
+        throw new Error('Failed to add event')
+      }
+      const data = await response.json()
+      setEvents(prevEvents => [...prevEvents, data])
+      setShowAddModal(false) 
+    } catch (error) {
+      console.error('Error adding event:', error)
+      setShowAddModal(false) 
+    }
   }
 
-  const deleteEvent = () => {
-    setEvents(events.filter((e) =>
-      !(e.title === selectedEvent.title &&
-        e.start.getTime() === selectedEvent.start.getTime() &&
-        e.end.getTime() === selectedEvent.end.getTime())
-    )) 
-    setShowManageModal(false) // Close the manage modal
+  const deleteEvent = async () => { 
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/calendar/deleteEvent/${selectedEvent._id}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        throw new Error('Failed to delete event')
+      }
+      setEvents(prevEvents => 
+        prevEvents.filter((e) => 
+          !(e.title === selectedEvent.title && 
+            e.start.getTime() === selectedEvent.start.getTime() && 
+            e.end.getTime() === selectedEvent.end.getTime())
+        )
+      )
+      setShowManageModal(false)
+    } catch (error) {
+      console.error('Error deleting event:', error)
+      setShowManageModal(false)
+    }
   }
 
-  const editEvent = () => {
-    if (!editTitle.trim()) return 
-    setEvents(events.map((e) =>
-      (e.title === selectedEvent.title && e.start.getTime() === selectedEvent.start.getTime() && e.end.getTime() === selectedEvent.end.getTime())
-        ? { ...e, title: editTitle, description: editDescription }
-        : e
-    )) 
-    setShowManageModal(false) // Close the manage modal
+  const editEvent = async () => {
+    if (!editTitle.trim() || !editDescription.trim()){
+      setErrorMsg('Please fill in all fields')
+      return
+    }
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/calendar/editEvent/${selectedEvent._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: editTitle,
+          description: editDescription,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error('Failed to edit event')
+      }
+      setEvents(prevEvents => 
+        prevEvents.map((e) =>
+          (e.title === selectedEvent.title && 
+           e.start.getTime() === selectedEvent.start.getTime() && 
+           e.end.getTime() === selectedEvent.end.getTime())
+            ? { ...e, title: editTitle, description: editDescription }
+            : e
+        )
+      )
+      setShowManageModal(false) 
+    } catch (error) {
+      console.error('Error editing event:', error)
+      setShowManageModal(false)
+    }
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <h2 className="error">Please login to access the calendar</h2>
+    )
   }
 
   return (
@@ -87,11 +184,12 @@ const MyCalendar = () => {
         />
       </div>
 
-      {/* Add Event Modal (pop up window) */}
+      {/* Add Event Modal */}
       {showAddModal && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>Create Event</h3>
+            {errorMsg && <p className="error">{errorMsg}</p>}
             <input
               type="text"
               placeholder="Event Title"
@@ -116,14 +214,15 @@ const MyCalendar = () => {
         <div className="modal-overlay">
           <div className="modal">
             <h3>Edit Or Delete Event</h3>
-            <label>edit title:</label>
+            {errorMsg && <p className="error">{errorMsg}</p>}
+            <label>Edit title:</label>
             <input
               type="text"
               placeholder="Edit Title"
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
             />
-            <label>edit description:</label>
+            <label>Edit description:</label>
             <textarea
               placeholder="Edit Description"
               value={editDescription}

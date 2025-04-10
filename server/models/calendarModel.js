@@ -5,7 +5,7 @@ const calendarEventSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    desctiption : {
+    description : {
         type: String,
         required: true,
     },

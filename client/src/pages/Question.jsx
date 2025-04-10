@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+import { useAuth } from "../context/AuthContext";
 
 const Question = () => {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
-    const isLoggedIn = currentUser !== null;
+    
+    const { isLoggedIn } = useAuth();
     const { id } = useParams();
     const [question, setQuestion] = useState(null);
     const [answers, setAnswers] = useState([]);

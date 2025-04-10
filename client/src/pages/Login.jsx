@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
 
 
-const Login = ({setIsLoggedIn}) => {
+const Login = () => {
 
     const navigate = useNavigate();
     const auth = getAuth(); 
@@ -40,7 +40,6 @@ const Login = ({setIsLoggedIn}) => {
             if(response.status === 200) {
                 setError(null); 
                 await signInWithEmailAndPassword(auth, email, password);  //sign in the user in the firebase auth system 
-                setIsLoggedIn(true);
                 setIsLoading(false);
                 navigate('/profile'); 
             }  

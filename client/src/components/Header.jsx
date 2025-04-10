@@ -6,13 +6,14 @@ import { IoPersonCircleOutline } from "react-icons/io5"
 import Navbar from './Navbar';
 import {getAuth } from 'firebase/auth';
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
-const Header = ({isLoggedIn, setIsLoggedIn, navBarOption, setNavBarOption}) => {
+const Header = ({ navBarOption, setNavBarOption}) => {
 
+    const { isLoggedIn } = useAuth(); 
     const auth = getAuth();
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
         auth.signOut();
         
     }
@@ -51,8 +52,7 @@ const Header = ({isLoggedIn, setIsLoggedIn, navBarOption, setNavBarOption}) => {
 };
 
 Header.propTypes = {
-    isLoggedIn: PropTypes.string.isRequired,
-    setIsLoggedIn: PropTypes.func.isRequired,
+    navBarOption: PropTypes.string.isRequired,
     setNavBarOption: PropTypes.func.isRequired,
 };
 

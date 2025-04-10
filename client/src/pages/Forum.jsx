@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { getAuth } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
 
 const ForumPage = () => {
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
-  const isLoggedIn = currentUser !== null;
-
+  
+  const { isLoggedIn } = useAuth(); 
   const [questions, setQuestions] = useState([]);  
   const [filteredQuestions, setFilteredQuestions] = useState([]); 
   const [searchQuery, setSearchQuery] = useState("");

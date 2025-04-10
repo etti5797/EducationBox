@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { getAuth } from "firebase/auth";
+import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const AddQuestion = () => {
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
-  const isLoggedIn = currentUser !== null;
-  const askedBy = currentUser?.displayName || "";
+  const { isLoggedIn, user } = useAuth();
+  const askedBy = user?.displayName || "";
 
   const [title, setTitle] = useState("");
   const [question, setQuestion] = useState("");
