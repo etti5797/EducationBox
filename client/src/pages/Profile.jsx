@@ -10,10 +10,15 @@ const Profile = () => {
     <div className="profile">
       {isUserLoggedIn ? (
         <div className="profile-content">
-          <h2>Hello, {getAuth().currentUser.displayName || "User"}</h2>
-          <Link to="/upload" style={{ textDecoration: 'none' }}>
-            <button className="upload-files-button">Upload Files</button>
-          </Link>
+          <h2>Hello {getAuth().currentUser.displayName || "User"}</h2>
+          <div className='profile-buttons'>
+            <Link to="/upload" style={{ textDecoration: 'none' }}>
+              <button className="upload-files-button">Upload Files</button>
+            </Link>
+            <Link to="/myCalendar" style={{ textDecoration: 'none' }}>
+              <button className="calendar-button">View Calendar</button>
+            </Link>
+          </div>
           {userEmail && <UploadedFiles userEmail={userEmail} />}
         </div>
       ) : (

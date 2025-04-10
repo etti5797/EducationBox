@@ -61,6 +61,11 @@ export const addAnswer = async (req, res) => {
         });
 
         await newAnswer.save();
+        
+        const question = await Question.findById(id);
+        question.numOfAnswers += 1;
+        await question.save();
+
         res.status(200).json({ message: "Answer submitted successfully" });
     } catch (error) {
         res.status(500).json({ message: "Error saving the answer" });

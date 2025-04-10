@@ -68,7 +68,7 @@ const AddQuestion = () => {
     <>
       {isLoggedIn ? (
         <div className="add-question-page">
-          <Link to={"/Forum"} className="back-button">
+          <Link to={"/forum"} className="back-button">
             <button className='back-button'>back</button>
           </Link>
           {errorMsg && <p className="error">{errorMsg}</p>}

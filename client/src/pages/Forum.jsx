@@ -86,6 +86,7 @@ const ForumPage = () => {
                   <p>
                     <strong>Asked by:</strong> {question.askedBy}{" "}
                     <strong>on:</strong> {new Date(question.createdAt).toLocaleString()}
+                    <p>{question.numOfAnswers}{" "}replies</p>
                   </p>
                   <div className="tags">
                     {/* Render tags as a comma-separated list */}

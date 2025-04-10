@@ -10,11 +10,11 @@ const Navbar = ({navBarOption, setNavBarOption}) => {
                     <li className="navbar-option" onClick={() => setNavBarOption("")}>Home</li>
                     {navBarOption === "" && <hr />}
                 </Link>
-                <Link to="/Forum" style={{ textDecoration: 'none' }}>
+                <Link to="/forum" style={{ textDecoration: 'none' }}>
                     <li className="navbar-option" onClick={() => setNavBarOption("Forum")}>Forum</li>
                     {navBarOption === "Forum" && <hr />}
                 </Link>
-                <Link to="/Shared-Materials" style={{ textDecoration: 'none' }}>
+                <Link to="/shared-materials" style={{ textDecoration: 'none' }}>
                     <li className="navbar-option" onClick={() => setNavBarOption("Shared Materials")}>Shared Materials</li>
                     {navBarOption === "Shared Materials" && <hr />}
                 </Link>
