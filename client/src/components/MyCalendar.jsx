@@ -3,8 +3,11 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useEffect } from 'react'
 
 const localizer = momentLocalizer(moment)
+
+// need to initialize the calendar events from the database - for a specific user
 
 const MyCalendar = () => {
   const [events, setEvents] = useState([]) 
