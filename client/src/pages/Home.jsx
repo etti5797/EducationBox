@@ -11,9 +11,9 @@ const Home = () => {
                 The platform includes:
             </p>
             <ul>
-                <li>A personal space for each kindergarten teacher to upload and manage materials.</li>
+                <li>A personal space for each kindergarten teacher to upload and manage materials, including a personalized calendar to record important events, planned activities, birthdays, holidays, and more – for efficient and organized classroom management.</li>
                 <li>A public area for sharing materials with other kindergarten teachers.</li>
-                <li>A forum to ask questions and share ideas.</li>
+                <li>A forum for asking questions and exchanging ideas.</li>
                 <li>A chatbot that suggests activity ideas to assist in daily tasks.</li>
             </ul>
             <p className="about-project"> 

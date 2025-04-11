@@ -113,11 +113,10 @@ const UploadFiles = () => {
           <label>
             Description:
           </label>
-          <input 
-              type="text" 
-              value={description} 
-              onChange={(e) => setDescription(e.target.value)} 
-              placeholder="file description" 
+          <textarea 
+            value={description} 
+            onChange={(e) => setDescription(e.target.value)} 
+            placeholder="file description"
           />
         </div>
         <div className='file-info'>

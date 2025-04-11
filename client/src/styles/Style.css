@@ -541,6 +541,21 @@ ul {
     justify-content: flex-start;
 }
 
+.file-info textarea {
+    flex: 1;
+    height: 80px;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+}
+
+.file-info textarea:focus {
+    outline: none;
+    border-color: var(--primary-color-hover);
+    transition: all 0.3s ease;
+}
+
 /* Forum page styles */
 .forum-page {
     padding: 20px;
