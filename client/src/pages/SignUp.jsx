@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../services/firestore"; 
 
 const SignUp = () => {
     const navigate = useNavigate();
     const auth = getAuth();
+
+    // since 1GB storage is free, i limit the website for 4 users, each with 225MB of storage
+    const USER_AMOUNT_LIMIT = 4; // maximum number of users allowed
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -28,6 +33,16 @@ const SignUp = () => {
         }
 
         setIsLoading(true);
+
+        // since 1GB storage is free, i limit the website for 4 users, each with 225MB of storage
+        const usersRef = collection(db, "users");
+        const snapshot = await getDocs(usersRef);
+        const userCount = snapshot.size; // if the collection is empty, the size will be 0
+        if (userCount >= USER_AMOUNT_LIMIT) {
+            setError("Maximum number of users reached, cannot create more accounts");
+            setIsLoading(false);
+            return;
+        }
         
         try {
             // Create a new user with Firebase Authentication

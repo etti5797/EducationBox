@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
 import { uploadFile } from '../services/uploadFile'; 
 import { db } from '../services/firestore'; 
-import { collection, addDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc, setDoc, getDocs } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 
 const UploadFiles = () => {
+
+  // 1GB storage is free, so i limit the website for 4 users, each with 225MB of storage
+  // so max storage for the website is 900MB
+  const MAX_USER_STORAGE_BYTES = 225 * 1024 * 1024; 
+  // const MAX_USER_STORAGE_BYTES =   400 * 1024; // 400KB for testing purposes
+  const getUserUsedStorage = async (userEmail) => {
+    const userRef = doc(db, "users", userEmail);
+    const filesRef = collection(userRef, "files");
+    const snapshot = await getDocs(filesRef);
+    let totalBytes = 0;
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.fileSize) {
+        totalBytes += data.fileSize;
+      }
+    });
+    return totalBytes;
+  };
   
   const [uploading, setUploading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -40,6 +58,13 @@ const UploadFiles = () => {
     }
     if(!tags || tags.trim() === '') {
       setErrorMsg("Please add tags for the file");
+      return;
+    }
+
+    const usedStorage = await getUserUsedStorage(userEmail);
+    if (usedStorage + file.size > MAX_USER_STORAGE_BYTES) {
+      setErrorMsg("You have reached your free storage limit (225MB). Please delete some files before uploading more");
+      setUploading(false);
       return;
     }
 
