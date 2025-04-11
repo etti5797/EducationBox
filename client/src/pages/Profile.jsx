@@ -18,6 +18,9 @@ const Profile = () => {
             <Link to="/myCalendar" style={{ textDecoration: 'none' }}>
               <button className="calendar-button">View Calendar</button>
             </Link>
+            <Link to="/todo-list" style={{ textDecoration: 'none' }}>
+              <button className="todo-list-button">View To-Do List</button>
+            </Link>
           </div>
           {userEmail && <UploadedFiles userEmail={userEmail} />}
         </div>

@@ -16,6 +16,7 @@ import Question from './pages/Question';
 import AddQuestion from './pages/AddQuestion';
 import AnswerQuestion from './pages/AnswerQuestion';
 import MyCalendar from './components/MyCalendar';
+import ToDoList from './pages/ToDoList';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/chatBot" element={<ChatBot/>}/>
           <Route path="/upload" element={<UploadFiles/>}/>
           <Route path="/myCalendar" element={<MyCalendar/>}/>
+          <Route path="/todo-list" element={<ToDoList/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
         <ChatBotIcon setNavBarOption={setNavBarOption}/>

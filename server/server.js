@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoute.js';
 import forumRoutes from './routes/forumRoute.js';
 import calendarRoutes from './routes/calendarRoute.js';
+import toDoListRoutes from './routes/toDoListRoute.js';
 
 
 dotenv.config();
@@ -24,6 +25,7 @@ mongoose.connect(MONGODB_URI)
   .catch((err) => console.error(err));
 
 
-app.use("/users", userRoutes); 
+app.use("/users", userRoutes); // login + signup
 app.use("/forum", forumRoutes);
 app.use("/calendar", calendarRoutes);
+app.use("/toDoList", toDoListRoutes); 

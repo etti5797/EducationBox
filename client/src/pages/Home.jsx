@@ -4,14 +4,13 @@ const Home = () => {
         <div className="home">
             <h1>Welcome to the EducationBox</h1>
             <p className='intro-text'>
-                This website was created out of a desire to help kindergarten teachers, especially my sister, who is a kindergarten teacher herself.
-                The goal of the site is to make it easier for kindergarten teachers to upload, organize, and share educational materials.
+            This website was created to support kindergarten teachers, especially my sister, who is one herself. It aims to simplify tasks like tracking events, managing materials, planning activities, and collaborating with colleagues.
             </p>
             <p className='platform-features-text'> 
                 The platform includes:
             </p>
             <ul>
-                <li>A personal space for each kindergarten teacher to upload and manage materials, including a personalized calendar to record important events, planned activities, birthdays, holidays, and more – for efficient and organized classroom management.</li>
+                <li>A personal space for each kindergarten teacher to upload and manage materials, including a personalized calendar to track important events, planned activities, birthdays, holidays, and more, as well as a to-do list for task management.</li>
                 <li>A public area for sharing materials with other kindergarten teachers.</li>
                 <li>A forum for asking questions and exchanging ideas.</li>
                 <li>A chatbot that suggests activity ideas to assist in daily tasks.</li>
