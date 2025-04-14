@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import bcrypt from 'bcrypt'; 
+import bcryptjs from 'bcryptjs'; 
 
 export const userLogin = async (req, res) => {
     try {
@@ -8,7 +8,7 @@ export const userLogin = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        const match = await bcrypt.compare(password, user.password)
+        const match = await bcryptjs.compare(password, user.password)
         // bcrypt stores both the salt and the hashed password together so that it can verify the password
         if (!match) {
             return res.status(401).json({ message: "Invalid password" }); // 401 Unauthorized
@@ -27,8 +27,8 @@ export const userSignup = async (req, res) => {
         if (existingUser) {
             return res.status(409).json({ message: "User already exists" }); // 409 Conflict
         }
-        const salt = await bcrypt.genSalt(10) // generate a unique salt, with 10 rounds of computation
-        const hash = await bcrypt.hash(password, salt)
+        const salt = await bcryptjs.genSalt(10) // generate a unique salt, with 10 rounds of computation
+        const hash = await bcryptjs.hash(password, salt)
         const newUser = new User({ name, email, password: hash });
         await newUser.save();
         return res.status(201).json({ message: "User created successfully", user: newUser });
