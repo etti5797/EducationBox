@@ -6,6 +6,8 @@ import userRoutes from './routes/userRoute.js';
 import forumRoutes from './routes/forumRoute.js';
 import calendarRoutes from './routes/calendarRoute.js';
 import toDoListRoutes from './routes/toDoListRoute.js';
+import path from 'path'; // for deployment
+
 
 
 
@@ -32,7 +34,6 @@ app.use("/forum", forumRoutes);
 app.use("/calendar", calendarRoutes);
 app.use("/toDoList", toDoListRoutes); 
 
-const path = require('path');
 
 // for deployment
 app.use(express.static(path.join(__dirname, '../client/build')));
