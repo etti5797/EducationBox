@@ -8,6 +8,8 @@ import calendarRoutes from './routes/calendarRoute.js';
 import toDoListRoutes from './routes/toDoListRoute.js';
 
 
+
+
 dotenv.config();
 
 const { MONGODB_URI } = process.env;
@@ -29,3 +31,13 @@ app.use("/users", userRoutes); // login + signup
 app.use("/forum", forumRoutes);
 app.use("/calendar", calendarRoutes);
 app.use("/toDoList", toDoListRoutes); 
+
+const path = require('path');
+
+// for deployment
+app.use(express.static(path.join(__dirname, '../client/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
+
