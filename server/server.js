@@ -7,9 +7,12 @@ import forumRoutes from './routes/forumRoute.js';
 import calendarRoutes from './routes/calendarRoute.js';
 import toDoListRoutes from './routes/toDoListRoute.js';
 import path from 'path'; // for deployment
+import { fileURLToPath } from 'url'; // for deployment
+import { dirname } from 'path'; // for deployment
 
 
-
+const __filename = fileURLToPath(import.meta.url); // for deployment
+const __dirname = dirname(__filename); // for deployment
 
 
 dotenv.config();
@@ -40,5 +43,4 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-
 
