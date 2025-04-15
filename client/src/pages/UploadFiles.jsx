@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 
 const UploadFiles = () => {
 
-  // 1GB storage is free, so i limit the website for 4 users, each with 225MB of storage
+  // 1GB storage is free, so i limit the website for 6 users, each with 150MB of storage
   // so max storage for the website is 900MB
-  const MAX_USER_STORAGE_BYTES = 225 * 1024 * 1024; 
+  const MAX_USER_STORAGE_BYTES = 150 * 1024 * 1024; 
   // const MAX_USER_STORAGE_BYTES =   400 * 1024; // 400KB for testing purposes
   const getUserUsedStorage = async (userEmail) => {
     const userRef = doc(db, "users", userEmail);

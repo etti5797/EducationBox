@@ -66,7 +66,7 @@ const SharedMaterials = () => {
                         {filteredMaterials.length > 0 ? (
                             filteredMaterials.map((material) => (
                                 <div key={material.id} className="file-card">
-                                    <h2>{material.fileOriginalName}</h2>
+                                    <p style={{color: 'rgba(101, 172, 255, 1)'}}>{material.fileOriginalName}</p>
                                     <p><strong>Description:</strong> {material.description || "No description"}</p>
                                     <p><strong>Tags:</strong> {material.tags?.join(', ') || "No tags"}</p>
                                     <p><strong>Uploaded by:</strong> {material.uploadedBy}</p>

@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../services/firestore"; 
 
 const SignUp = () => {
     const navigate = useNavigate();
     const auth = getAuth();
 
-    // since 1GB storage is free, i limit the website for 4 users, each with 225MB of storage
-    const USER_AMOUNT_LIMIT = 4; // maximum number of users allowed
+    // since 1GB storage is free, i limit the website for 6 users, each with 150MB of storage
+    const USER_AMOUNT_LIMIT = 6; // maximum number of users allowed
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -34,12 +32,23 @@ const SignUp = () => {
 
         setIsLoading(true);
 
-        // since 1GB storage is free, i limit the website for 4 users, each with 225MB of storage
-        const usersRef = collection(db, "users");
-        const snapshot = await getDocs(usersRef);
-        const userCount = snapshot.size; // if the collection is empty, the size will be 0
-        if (userCount >= USER_AMOUNT_LIMIT) {
-            setError("Maximum number of users reached, cannot create more accounts");
+        // since 1GB storage is free, i limit the website for 6 users, each with 150MB of storage
+        try{
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/users`);
+            if(!response.ok) {
+                throw new Error("Failed to fetch number of users");
+            }
+            const data = await response.json();
+            const numUsers = data.numUsers;
+            if(numUsers >= USER_AMOUNT_LIMIT) {
+                setError("Maximum number of users reached. cannot create more accounts");
+                setIsLoading(false);
+                return;
+            }
+        }
+        catch (error) {
+            console.error(error);
+            setError("Failed to check if user limit is reached. Please try again later");
             setIsLoading(false);
             return;
         }

@@ -37,3 +37,13 @@ export const userSignup = async (req, res) => {
         return res.status(500).json({ message: "Server error" }); 
     }
 };
+
+export const getNumUsers = async (req, res) => {
+    try {
+        const numUsers = await User.countDocuments();
+        return res.status(200).json({ numUsers });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" }); 
+    }
+}
