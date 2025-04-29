@@ -1,10 +1,13 @@
 import express from 'express';
-import { userLogin, userSignup, getNumUsers } from '../controllers/userController.js';
+import { getNumUsers, addUser, removeUser } from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.post('/login', userLogin);
-router.post('/signup', userSignup);
+/* using sign in with google */
+/* only saving user name and email in mongoDb for userCount */
+
+router.post('/addUser', addUser)
+router.delete('/removeUser', removeUser); 
 router.get('/', getNumUsers);
 
 export default router;

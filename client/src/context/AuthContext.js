@@ -1,9 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "firebase/auth";
 
-// This context will be used to provide the authentication state of the user to the entire app
-// It will be used to check if the user is logged in or not
-// It will also be used to get the user information such as email and display name
 
 const AuthContext = createContext();
 
@@ -13,7 +10,12 @@ export const AuthProvider = ({ children }) => {
   const auth = getAuth();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    // set the presistence of the auth state to browser session persistence
+    // need to define this before calling onAuthStateChanged
+    setPersistence(auth, browserSessionPersistence)
+      .catch((error) => console.error('Error setting session persistence:', error));
+
+    const updateAuthState = onAuthStateChanged(auth, (user) => {
       setUser(user);
       if (user !== null) {
         setIsLoggedIn(true);
@@ -21,8 +23,25 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
       }
     });
+    return () => updateAuthState();
+  }, [auth]);
 
-    return () => unsubscribe();
+
+  // the user remains logged in only for the current browser session - when the browser is closed, the user will be logged out
+  useEffect(() => {
+    // logout the user when the browser is closed
+    const handleBeforeUnload = () => {
+      signOut(auth).catch((error) => {
+        console.error('Error signing out on beforeunload:', error);
+      });
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [auth]);
 
   return (
@@ -31,6 +50,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => useContext(AuthContext);

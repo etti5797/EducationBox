@@ -1,57 +1,53 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
+import { useNavigate } from "react-router-dom";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth"; 
+import { FcGoogle } from "react-icons/fc";
 
 
 const Login = () => {
 
     const navigate = useNavigate();
     const auth = getAuth(); 
+    const provider = new GoogleAuthProvider();
+
+    // since 1GB storage is free, i limit the website for 6 users, each with 150MB of storage
+    const USER_AMOUNT_LIMIT = 6; 
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
     const handleLogin = async (e) => {
         setError(null); 
-        e.preventDefault();
         setIsLoading(true);
         try{
-            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/users/login`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/users`);
+            if(!response.ok) {
+                throw new Error("Failed to fetch number of users");
+            }
+            const data = await response.json();
+            const numUsers = data.numUsers;
+            if(numUsers >= USER_AMOUNT_LIMIT) {
+                setError("Maximum number of users reached. cannot create more accounts");
+                setIsLoading(false);
+                return;
+            }
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            await fetch(`${process.env.REACT_APP_SERVER_URL}/users/addUser`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
-            }); 
-            if (!response.ok) {
-                setError("Something went wrong");
-                setIsLoading(false);
-            }
-            if(response.status === 404) {
-                setError("You don't have an account, please sign up"); 
-                setIsLoading(false);
-            }
-            if(response.status === 401) {
-                setError("Invalid password, please try again");
-                setIsLoading(false); 
-            }
-            if(response.status === 200) {
-                setError(null); 
-                await signInWithEmailAndPassword(auth, email, password);  //sign in the user in the firebase auth system 
-                setIsLoading(false);
-                navigate('/profile'); 
-            }  
+                body: JSON.stringify({ 
+                    name: user.displayName, 
+                    email: user.email 
+                }),
+            });
+            navigate("/profile"); // redirect to profile page after successful login
         }
         catch (error) {
             console.error(error);
-            if(error.code === "auth/user-not-found") {
-                setError("You don't have an account, please sign up"); 
-            }
-           else{
-                setError("Something went wrong");
-           }
+            setError("Failed to login. Please try again later");
             setIsLoading(false);
         }
     }
@@ -63,28 +59,10 @@ const Login = () => {
         {isLoading ? (<div className="loading">Loading...</div> ) : 
         ( 
             <div className="login">
-                <form onSubmit={handleLogin}>
-                    <input type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <input type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button type="submit" disabled={isLoading}>
-                        submit
-                    </button> {/* the button is disabled when isLoading is true*/ }
-                </form>
-                <p>Don't have an account?{" "} 
-                    <Link to="/signup" style={{ textDecoration: 'none' }}>
-                    Sign Up
-                    </Link>
-                </p>
+                <button className="google-login-button" onClick={handleLogin}>
+                    <FcGoogle className="google-icon" />
+                    Sign in with Google
+                </button>
             </div>
         )}
         </>

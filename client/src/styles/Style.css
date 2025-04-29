@@ -17,6 +17,8 @@
     --forum-notice-message: #555;
     --question-card-bg: white;
     --question-card-text-color: #777;
+    --delete-account-button-bg: rgb(234, 20, 20);
+    --delete-account-button-bg-hover: white;
 }
 
 /* Universal styles */
@@ -99,7 +101,6 @@ input:focus {
     margin-left: 215px;
 }
 
-
 /* Header styles */
 .header {
     display: grid;
@@ -132,10 +133,15 @@ input:focus {
 
 
 /* Footer styles */
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* ensures the app takes at least the full viewport height */
+    /* we do it to push the footer to the bottom */
+}
 .footer {
     text-align: center;
-    position: relative;
-    bottom: 0;
+    margin-top: auto; /* Pushes footer to the bottom - take up all available space above it */
 }
 
 .footer p {
@@ -229,30 +235,26 @@ ul {
     justify-content: center;
 }
 
-/* Login page && signup page styles */
-.login, .signup {
+/* Login page style */
+.login{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-top: 10px;
 }
 
-.login p, .signup p{
+.login p{
     font-size: 1.2rem;
     color: var(--primary-color);
     margin-bottom: 20px;
 }
 
-.login form, .signup form {
+.google-login-button{
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    padding: 50px;
-    background-color: var(--box-background-color);
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 10px; 
 }
 
 /* Chatbot styles */
@@ -411,6 +413,23 @@ ul {
     text-align: center;
 }
 
+
+.delete-account {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.delete-account-button{
+    background-color: var(--delete-account-button-bg);
+}
+
+.delete-account-button:hover{
+    background-color: var(--delete-account-button-bg-hover);
+    border: 2px solid var(--delete-account-button-bg);
+}
+  
+
 .uploaded-files {
     margin-top: 30px;
     display: flex;
@@ -492,7 +511,8 @@ ul {
 .profile-buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
   
 /* Upload file page styles */
@@ -990,5 +1010,6 @@ ul {
     font-size: 18px;
 }
   
+
 
 

@@ -9,7 +9,6 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import ChatBotIcon from './components/ChatBotIcon';
 import ChatBot from './pages/ChatBot';
-import SignUp from './pages/SignUp';
 import UploadFiles from './pages/UploadFiles';
 import NotFound from './pages/NotFound';
 import Question from './pages/Question';
@@ -36,7 +35,6 @@ function App() {
           <Route path="/add-question" element={<AddQuestion/>}/>
           <Route path="/shared-materials" element={<SharedMaterials />} />
           <Route path="/login" element={<Login/>}/>
-          <Route path="/signUp" element={<SignUp />}/>
           <Route path="/profile" element={<Profile />}/>
           <Route path="/chatBot" element={<ChatBot/>}/>
           <Route path="/upload" element={<UploadFiles/>}/>
