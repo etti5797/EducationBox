@@ -1,7 +1,8 @@
 import User from "../models/userModel.js";
 import ToDoList from "../models/toDoListModel.js";
 import CalendarEvent from "../models/calendarModel.js";
-import Question from "../models/questionModel.js";
+import { sendAccountDeletionConfirmation } from "../services/emailNotification.js"; 
+
 
 // using google sign in, saving {user name, email} in mongoDb for userCount
 
@@ -41,6 +42,7 @@ export const removeUser = async (req, res) => {
         await ToDoList.deleteMany({ userEmail: email });
         await CalendarEvent.deleteMany({ userEmail: email });
         await User.findOneAndDelete({ email });
+        sendAccountDeletionConfirmation(email); 
         return res.status(200).json({ message: "User deleted successfully" });
         
     }
