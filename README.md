@@ -31,14 +31,26 @@ Add and manage daily tasks in a simple, intuitive checklist.
 Collaborate by sharing resources with other kindergarten teachers.
 
 #### Forum  
-Ask questions, get answers, and exchange ideas with fellow educators.
+- Ask questions, get answers, and exchange ideas with fellow educators.
+- **Reply to answers** – threaded conversations like a regular forum.
+- Receive **email notifications** when:
+  - A question is submitted (confirmation).
+  - Someone answers your question.
+  - Someone replies to your comment.
 
 #### Chatbot Assistant  
 Chat with a smart assistant that suggests fun and educational activity ideas.
 
 #### Authentication  
-- Register and log in using Firebase Authentication.  
-- Auth state is managed with `AuthContext`, supporting auto-login and protected routes.
+- **Register and log in with Google** via Firebase Authentication.  
+- Auth state is managed with `AuthContext`, supporting protected routes.
+
+#### Account Management  
+- Users can delete their account (excluding content they posted in the forum).
+- A **confirmation email** is sent upon account deletion.
+
+#### Responsive Design  
+The application is fully responsive and mobile-friendly.
 
 ---
 
@@ -56,21 +68,20 @@ MongoDB is used to:
 
 RESTful API endpoints handle:
 - User operations  
-- File sharing  
 - Forum discussions  
 - Calendar/task management  
 
 ---
 
 ## 🔐 Authentication
-- Secure login and registration handled by Firebase Authentication.  
-- Users stay logged in securely across sessions using React Context.
+- Login is supported via **Google Sign-In**.
 
 ---
 
 ## ☁️ Storage
 
-- **Firebase Firestore** – For uploading and storing educational materials and associated tags.  
+- **Firebase Firestore** – For uploading and storing educational materials and associated metadata (descriptions, tags, etc.).
+- **Firebase Storage** – For storing the actual files (e.g., PDFs, WORDs) that are uploaded by the users.
 - **MongoDB** – For storing application data such as user info, forum content, tasks, and events.
 
 ---
@@ -79,7 +90,7 @@ RESTful API endpoints handle:
 
 - **Frontend**: React, Firebase, Context API  
 - **Backend**: Node.js, Express.js, MongoDB, Mongoose  
-- **Authentication**: Firebase Authentication  
+- **Authentication**: Firebase Authentication (Google Sign-In)  
 - **UI Styling**: Custom CSS  
 - **Icons**: react-icons
 
@@ -87,9 +98,9 @@ RESTful API endpoints handle:
 
 ## 🚀 Deployment
 
-You can access the live application at [**https://educationbox.onrender.com/**](https://educationbox.onrender.com/).  
-This project is deployed using **Render**, a cloud platform for hosting full-stack applications.
-(it can take up to a minute for the website to get back online)
+You can access the live application at [**https://educationbox.onrender.com/**](https://educationbox.onrender.com/)  
+This project is deployed using **Render**, a cloud platform for hosting full-stack applications.  
+Thanks to an external **cron job**, the server is pinged regularly to keep it awake and responsive at all times.
 
 ---
 
