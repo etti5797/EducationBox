@@ -16,6 +16,7 @@ import AddQuestion from './pages/AddQuestion';
 import AnswerQuestion from './pages/AnswerQuestion';
 import MyCalendar from './components/MyCalendar';
 import ToDoList from './components/ToDoList';
+import ReplyComment from './pages/ReplyComment';
 
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/forum" element={<Forum />} />
           <Route path="/question/:id" element={<Question/>} />
           <Route path="/question/:id/answer" element={<AnswerQuestion/>}/>
+          <Route path="question/:id/answer/:answerId/comment" element={<ReplyComment/>}/>
           <Route path="/add-question" element={<AddQuestion/>}/>
           <Route path="/shared-materials" element={<SharedMaterials />} />
           <Route path="/login" element={<Login/>}/>

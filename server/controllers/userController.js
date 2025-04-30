@@ -1,4 +1,7 @@
 import User from "../models/userModel.js";
+import ToDoList from "../models/toDoListModel.js";
+import CalendarEvent from "../models/calendarModel.js";
+import Question from "../models/questionModel.js";
 
 // using google sign in, saving {user name, email} in mongoDb for userCount
 
@@ -31,15 +34,19 @@ export const addUser = async (req, res) => {
 export const removeUser = async (req, res) => {
     try {
         const { email } = req.body;
-        const user = await User.findOneAndDelete({ email });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        return res.status(200).json({ message: "User deleted successfully" });  
+        // delete the user to-list and calendar and delete the user from the user collection,
+        // but keep the questions and answers in the forum collection for the sake of the other users
+        // this user will not get email notifications anymore when someone answers their question
+        // or replies to their comment
+        await ToDoList.deleteMany({ userEmail: email });
+        await CalendarEvent.deleteMany({ userEmail: email });
+        await User.findOneAndDelete({ email });
+        return res.status(200).json({ message: "User deleted successfully" });
+        
     }
     catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Server error" }); 
+        return res.status(500).json({ message: "Server error, user not deleted" }); 
     }
 }
 

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const AddQuestion = () => {
   const { isLoggedIn, user } = useAuth();
   const askedBy = user?.displayName || "";
+  const askedByEmail = user?.email || "";
 
   const [title, setTitle] = useState("");
   const [question, setQuestion] = useState("");
@@ -40,6 +41,7 @@ const AddQuestion = () => {
             question,
             tags,
             askedBy,
+            askedByEmail
           }),
         }
       );

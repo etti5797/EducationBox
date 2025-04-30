@@ -1,6 +1,7 @@
 import Question from "../models/questionModel.js";
 import Answer from "../models/answerModel.js";
 import mongoose from "mongoose";
+// import { sendEmailConfirmation } from "../services/emailNotification.js";
 
 export const getQuestions = async (req, res) => {
     try {
@@ -33,15 +34,17 @@ export const getQuestionByID = async (req, res) => {
 
 
 export const addQuestion = async (req, res) => {
-    const { title, question, tags, askedBy } = req.body;
+    const { title, question, tags, askedBy, askedByEmail } = req.body;
     try{
         const newQuestion = new Question({
             title,
             question,
             tags,
-            askedBy
+            askedBy,
+            askedByEmail
         });
         await newQuestion.save();
+        // sendEmailConfirmation(askedByEmail...); // need to add email to the Q model
         return res.status(201).json({ message: "Question added successfully", question: newQuestion }); 
     }
     catch(error){
@@ -52,12 +55,13 @@ export const addQuestion = async (req, res) => {
 
 export const addAnswer = async (req, res) => {
     const { id } = req.params; // question ID
-    const { answer, answeredBy } = req.body;
+    const { answer, answeredBy, answeredByEmail } = req.body;
     try {
         const newAnswer = new Answer({
             questionId: id,
             answer,
-            answeredBy
+            answeredBy,
+            answeredByEmail
         });
 
         await newAnswer.save();
@@ -71,3 +75,26 @@ export const addAnswer = async (req, res) => {
         res.status(500).json({ message: "Error saving the answer" });
     }
 };
+
+export const addComment = async (req, res) => {
+    try{
+        const { id } = req.params; 
+        const { answer, answeredBy, answeredByEmail, parentAnswerId } = req.body;
+        const newAnswer = new Answer({
+            questionId : id,
+            answer,
+            answeredBy,
+            answeredByEmail,
+            parentAnswerId,
+        });
+        await newAnswer.save();
+        res.json(newAnswer);
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({ message: "Error saving the comment" });
+    }
+}
+
+
+    

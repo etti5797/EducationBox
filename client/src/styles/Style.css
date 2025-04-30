@@ -19,6 +19,7 @@
     --question-card-text-color: #777;
     --delete-account-button-bg: rgb(234, 20, 20);
     --delete-account-button-bg-hover: white;
+    --comment-bg: #f9f9f9;
 }
 
 /* Universal styles */
@@ -769,6 +770,30 @@ ul {
     font-weight: bold;
     color: var(--primary-color);
 }
+
+.replies, .nested-replies {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.reply-details {
+    padding-left: 16px; 
+    border-left: 4px solid var(--primary-color);
+    background-color: var(--comment-bg);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+}
+
+.toogle-comments-button{
+    margin-left: 5px;
+}
+
 
 /* answer question page style */
 .answer-input {
