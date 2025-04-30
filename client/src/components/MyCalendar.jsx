@@ -175,7 +175,7 @@ const MyCalendar = () => {
           defaultView="month"
           defaultDate={new Date()}
           popup={true}
-          style={{ height: 500, width: 600, margin: '20px auto', backgroundColor: 'white' }}
+          style={{ height: 500, width: '100%', backgroundColor: 'white' }}
           events={events}
           startAccessor="start"
           endAccessor="end"

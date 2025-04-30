@@ -174,8 +174,10 @@ const ToDoList = () => {
                                         onChange={() => handleTaskStatusChange(task._id)}
                                     />
                                     <p style={{textDecoration: task.completed ? 'line-through' : 'none'}}>{task.task}</p>
-                                    <MdDeleteForever className='task-action-delete' onClick={() => handleDeleteTask(task._id)}/>
-                                    <TiPencil className='task-action-edit' onClick={() => openEditPopUpWindow(task._id)}/>
+                                    <div className='edit-delete-buttons'>
+                                        <MdDeleteForever className='task-action-delete' onClick={() => handleDeleteTask(task._id)}/>
+                                        <TiPencil className='task-action-edit' onClick={() => openEditPopUpWindow(task._id)}/>
+                                    </div>
                                 </div>
                             ))}
                             {showEditPopup && (

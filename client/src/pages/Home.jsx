@@ -19,7 +19,7 @@ const Home = () => {
                 This website is also a personal project that helps me develop my programming skills. 
                 I hope it will make the work of kindergarten teachers easier and provide them with new tools to enhance their educational practices.
             </p>
-            <p className='className=linkedin'> 
+            <p className='linkedin'> 
                 Connect with me on LinkedIn: 
                 <br/>
                 <a className='linkedin-icon' href="https://www.linkedin.com/in/etti-revach/" target="_blank" rel="noopener noreferrer"

@@ -5,7 +5,7 @@ import '../styles/Style.css';
 const Navbar = ({navBarOption, setNavBarOption}) => {
     return (
         <div className="navbar">
-            <ul className="navber-options">  
+            <ul className="navbar-options">  
                 <Link to="/" style={{ textDecoration: 'none' }}>
                     <li className="navbar-option" onClick={() => setNavBarOption("")}>Home</li>
                     {navBarOption === "" && <hr />}
